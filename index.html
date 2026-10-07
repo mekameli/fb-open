@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Open in Facebook</title>
+<style>
+:root{--bg:#f3f4f6;--fg:#111827;--card:#fff;--blue:#1877f2;--muted:#6b7280}
+@media (prefers-color-scheme:dark){:root{--bg:#111827;--fg:#f3f4f6;--card:#1f2937;--muted:#9ca3af}}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}
+main{max-width:420px;margin:12vh auto;padding:24px 16px;text-align:center}
+.card{background:var(--card);border-radius:14px;padding:22px 18px}
+a.btn{display:block;margin:12px 0;padding:14px;border-radius:10px;font-size:17px;font-weight:600;text-decoration:none}
+a.app{background:var(--blue);color:#fff}
+a.web{border:1px solid var(--blue);color:var(--blue)}
+p{color:var(--muted);font-size:14px;line-height:1.45}
+</style></head>
+<body><main><div class="card">
+<h1 style="font-size:19px;margin:0 0 6px">Opening the listing in Facebook…</h1>
+<p id="msg">If Facebook doesn't open by itself, tap the button.</p>
+<a id="app" class="btn app" href="#">Open in Facebook app</a>
+<a id="web" class="btn web" href="#">Open on the web instead</a>
+</div></main>
+<script>
+// Only a numeric Marketplace item id is accepted, so this page can't be used to send anyone elsewhere.
+var id = (new URLSearchParams(location.search).get("i") || "").replace(/\D/g, "");
+var web = "https://www.facebook.com/marketplace/item/" + id + "/";
+var app = "fb://facewebmodal/f?href=" + encodeURIComponent(web);
+if (!id) {
+  document.getElementById("msg").textContent = "This link is missing its listing number.";
+  document.getElementById("app").style.display = "none";
+  document.getElementById("web").href = "https://www.facebook.com/marketplace/";
+} else {
+  document.getElementById("app").href = app;
+  document.getElementById("web").href = web;
+  setTimeout(function () { location.href = app; }, 150);
+}
+</script></body></html>
