@@ -16,8 +16,9 @@ p{color:var(--muted);font-size:14px;line-height:1.45}
 </style></head>
 <body><main><div class="card">
 <h1 style="font-size:19px;margin:0 0 6px">Opening the listing in Facebook…</h1>
-<p id="msg">If Facebook doesn't open by itself, tap the button.</p>
+<p id="msg">If Facebook doesn't open by itself, tap the first button. If it opens Facebook but not the listing, try the second.</p>
 <a id="app" class="btn app" href="#">Open in Facebook app</a>
+<a id="app2" class="btn app" href="#">Open in Facebook app (other way)</a>
 <a id="web" class="btn web" href="#">Open on the web instead</a>
 </div></main>
 <script>
@@ -25,12 +26,16 @@ p{color:var(--muted);font-size:14px;line-height:1.45}
 var id = (new URLSearchParams(location.search).get("i") || "").replace(/\D/g, "");
 var web = "https://www.facebook.com/marketplace/item/" + id + "/";
 var app = "fb://facewebmodal/f?href=" + encodeURIComponent(web);
+// Second form of the app link: Facebook documents neither, so the page offers both (2026-10-11).
+var app2 = "fb://marketplace_product_details?id=" + id;
 if (!id) {
   document.getElementById("msg").textContent = "This link is missing its listing number.";
   document.getElementById("app").style.display = "none";
+  document.getElementById("app2").style.display = "none";
   document.getElementById("web").href = "https://www.facebook.com/marketplace/";
 } else {
   document.getElementById("app").href = app;
+  document.getElementById("app2").href = app2;
   document.getElementById("web").href = web;
   setTimeout(function () { location.href = app; }, 150);
 }
